@@ -58,9 +58,9 @@ export default function Services() {
   ];
 
   return (
-    <section id="services" ref={ref} className="relative py-24 overflow-hidden">
+    <section id="services" ref={ref} className="relative py-12 overflow-hidden">
       
-      <motion.div style={{ y }} className="container mx-auto px-6 relative z-10">
+      <motion.div style={{ y }} className="mx-auto px-6 lg:px-16 xl:px-32 2xl:px-48 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}

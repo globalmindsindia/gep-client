@@ -39,7 +39,7 @@ export default function Header({ onRegisterClick }: HeaderProps) {
           : "bg-transparent"
       }`}
     >
-      <div className="container mx-auto px-6 py-4">
+      <div className="mx-auto px-6 lg:px-16 xl:px-32 2xl:px-48 py-3">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <motion.div
@@ -51,7 +51,7 @@ export default function Header({ onRegisterClick }: HeaderProps) {
               alt="Global Minds India"
               width={168}
               height={56}
-              className="h-14 w-auto"
+              className="h-12 w-auto"
             />
           </motion.div>
 

@@ -1,7 +1,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { BookOpen, Target, TrendingUp, Zap, Users } from "lucide-react";
+import { Target, Users, Home, GraduationCap, Briefcase, UserCheck, X, CheckCircle, Building, Shield, Sparkles, DollarSign } from "lucide-react";
 
 export default function WhatIsGEP() {
   const ref = useRef(null);
@@ -16,22 +16,22 @@ export default function WhatIsGEP() {
 
   const targetAudience = [
     {
-      icon: BookOpen,
+      icon: Home,
       title: "Homemakers",
       description: "Who want to contribute without stepping outside",
     },
     {
-      icon: Target,
+      icon: GraduationCap,
       title: "Teachers",
       description: "Who guide hundreds of students every year",
     },
     {
-      icon: TrendingUp,
+      icon: Briefcase,
       title: "Working Professionals",
       description: "Who inspire their circle",
     },
     {
-      icon: Zap,
+      icon: UserCheck,
       title: "Retired Individuals",
       description: "Who still want to impact lives",
     },
@@ -48,8 +48,8 @@ export default function WhatIsGEP() {
   ];
 
   return (
-    <section id="what-is-gep" ref={ref} className="relative py-24 overflow-hidden">
-      <motion.div style={{ y }} className="container mx-auto px-6 relative z-10">
+    <section id="what-is-gep" ref={ref} className="relative py-12 overflow-hidden">
+      <motion.div style={{ y }} className="mx-auto px-6 lg:px-16 xl:px-32 2xl:px-48 relative z-10">
         
         {/* Header Section */}
         <motion.div
@@ -64,7 +64,7 @@ export default function WhatIsGEP() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="inline-block bg-white/10 backdrop-blur-md rounded-full px-8 py-4 border border-white/20 mb-8"
           >
-            <span className="text-white font-semibold text-lg">🌟 What Is This Programme?</span>
+            <span className="text-white font-semibold text-lg flex items-center gap-2"><Sparkles className="w-4 h-4" /> What Is This Programme?</span>
           </motion.div>
           
           <h2 className="text-4xl md:text-5xl font-bold mb-8 text-white leading-tight">
@@ -82,7 +82,7 @@ export default function WhatIsGEP() {
               transition={{ duration: 0.6, delay: 0.4 }}
               className="bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/20"
             >
-              <div className="text-6xl mb-4">❌</div>
+              <X className="w-16 h-16 text-red-400 mb-4 mx-auto" />
               <h3 className="text-2xl font-bold mb-4 text-white">NOT Just a Referral System</h3>
               <p className="text-lg text-white/80">This goes beyond simple referrals</p>
             </motion.div>
@@ -93,7 +93,7 @@ export default function WhatIsGEP() {
               transition={{ duration: 0.6, delay: 0.6 }}
               className="bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/20"
             >
-              <div className="text-6xl mb-4">🎯</div>
+              <Target className="w-16 h-16 text-yellow-300 mb-4 mx-auto" />
               <h3 className="text-2xl font-bold mb-4 text-yellow-300">A Life-Changing Mission</h3>
               <p className="text-lg text-white/90">Help students build global careers while empowering yourself</p>
             </motion.div>
@@ -114,7 +114,7 @@ export default function WhatIsGEP() {
               transition={{ duration: 0.6, delay: 1 }}
               className="inline-block bg-white/10 backdrop-blur-md rounded-full px-8 py-4 border border-white/20 mb-6"
             >
-              <span className="text-white font-semibold text-lg">👥 Perfect For</span>
+              <span className="text-white font-semibold text-lg flex items-center gap-2"><Users className="w-4 h-4" /> Perfect For</span>
             </motion.div>
             <h3 className="text-3xl font-bold text-white mb-4">Who Is This Programme For?</h3>
           </div>
@@ -168,15 +168,15 @@ export default function WhatIsGEP() {
                 transition={{ duration: 0.6, delay: 2 }}
                 className="inline-block bg-white/10 backdrop-blur-md rounded-full px-8 py-4 border border-white/20 mb-6"
               >
-                <span className="text-white font-semibold text-lg">✅ Zero Requirements</span>
+                <span className="text-white font-semibold text-lg flex items-center gap-2"><CheckCircle className="w-4 h-4" /> Zero Requirements</span>
               </motion.div>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
               {[
-                { icon: "🏢", title: "No Office", desc: "Work from anywhere" },
-                { icon: "🎓", title: "No Experience", desc: "We'll train you" },
-                { icon: "🛡️", title: "No Risk", desc: "Zero investment needed" }
+                { icon: Building, title: "No Office", desc: "Work from anywhere" },
+                { icon: GraduationCap, title: "No Experience", desc: "We'll train you" },
+                { icon: Shield, title: "No Risk", desc: "Zero investment needed" }
               ].map((item, index) => (
                 <motion.div
                   key={index}
@@ -186,7 +186,7 @@ export default function WhatIsGEP() {
                   whileHover={{ scale: 1.05, y: -5 }}
                   className="bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/20 text-center group"
                 >
-                  <div className="text-5xl mb-4">{item.icon}</div>
+                  <item.icon className="w-12 h-12 text-yellow-300 mb-4 mx-auto" />
                   <h4 className="text-2xl font-bold mb-2 text-yellow-300">{item.title}</h4>
                   <p className="text-white/80">{item.desc}</p>
                 </motion.div>
@@ -199,12 +199,12 @@ export default function WhatIsGEP() {
               transition={{ duration: 0.8, delay: 2.8 }}
               className="bg-white/10 backdrop-blur-md rounded-3xl p-10 border border-white/20 text-center"
             >
-              <div className="text-6xl mb-6">🎆</div>
+              <Sparkles className="w-16 h-16 text-yellow-300 mb-6 mx-auto" />
               <h3 className="text-3xl font-bold mb-4 text-white">Simple Success Formula</h3>
               <p className="text-xl text-white/90 mb-6">Just your ability to connect one dream to the right direction</p>
               <div className="bg-white/10 rounded-2xl p-6 border border-white/20">
-                <p className="text-2xl font-bold text-yellow-300">
-                  Every Successful Registration = You Earn 💰
+                <p className="text-2xl font-bold text-yellow-300 flex items-center justify-center gap-2">
+                  Every Successful Registration = You Earn <DollarSign className="w-6 h-6" />
                 </p>
               </div>
             </motion.div>

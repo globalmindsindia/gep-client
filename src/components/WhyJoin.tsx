@@ -1,7 +1,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { Briefcase, DollarSign, HeadphonesIcon, TrendingUp, Users, Lightbulb } from "lucide-react";
+import { DollarSign, HeadphonesIcon, TrendingUp, Users, Clock, Home, Compass, GraduationCap } from "lucide-react";
 
 export default function WhyJoin() {
   const ref = useRef(null);
@@ -16,13 +16,13 @@ export default function WhyJoin() {
 
   const benefits = [
     {
-      icon: DollarSign,
+      icon: Clock,
       title: "Work Your Way",
       description: "From home, after office, on weekends — or full-time. Your schedule, your choice.",
       stats: "✔ Flexible timing",
     },
     {
-      icon: Briefcase,
+      icon: DollarSign,
       title: "Zero Investment, Zero Pressure",
       description: "No joining fee. No targets. No marketing cost.",
       stats: "✔ No upfront costs",
@@ -40,13 +40,13 @@ export default function WhyJoin() {
       stats: "✔ Full support",
     },
     {
-      icon: TrendingUp,
+      icon: Home,
       title: "A Perfect Fit for Homemakers",
       description: "Who want to be financially independent",
       stats: "✔ Financial freedom",
     },
     {
-      icon: Lightbulb,
+      icon: Users,
       title: "Perfect for Everyone",
       description: "Teachers, graduates, retirees, working employees wanting meaningful engagement",
       stats: "✔ Purpose-driven work",
@@ -54,9 +54,9 @@ export default function WhyJoin() {
   ];
 
   return (
-    <section id="why-join" ref={ref} className="relative py-24 overflow-hidden">
+    <section id="why-join" ref={ref} className="relative py-12 overflow-hidden">
 
-      <motion.div style={{ y }} className="container mx-auto px-6 relative z-10">
+      <motion.div style={{ y }} className="mx-auto px-6 lg:px-16 xl:px-32 2xl:px-48 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -159,23 +159,23 @@ export default function WhyJoin() {
                     whileHover={{ scale: 1.05, y: -5 }}
                     className="bg-white/10 rounded-2xl p-6 border border-white/20"
                   >
-                    <div className="text-3xl mb-3">🧗‍♂️</div>
+                    <Compass className="w-8 h-8 text-yellow-300 mb-3 mx-auto" />
                     <p className="font-semibold text-yellow-300">You're a Guide</p>
                   </motion.div>
-                  
+
                   <motion.div
                     whileHover={{ scale: 1.05, y: -5 }}
                     className="bg-white/10 rounded-2xl p-6 border border-white/20"
                   >
-                    <div className="text-3xl mb-3">👨‍🏫</div>
+                    <GraduationCap className="w-8 h-8 text-yellow-300 mb-3 mx-auto" />
                     <p className="font-semibold text-yellow-300">You're a Mentor</p>
                   </motion.div>
-                  
+
                   <motion.div
                     whileHover={{ scale: 1.05, y: -5 }}
                     className="bg-white/10 rounded-2xl p-6 border border-white/20"
                   >
-                    <div className="text-3xl mb-3">🌉</div>
+                    <TrendingUp className="w-8 h-8 text-yellow-300 mb-3 mx-auto" />
                     <p className="font-semibold text-yellow-300">You're a Bridge</p>
                   </motion.div>
                 </div>

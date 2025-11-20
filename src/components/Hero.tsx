@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Award, Users, GraduationCap } from "lucide-react";
+import { Award, Users, GraduationCap, Home, Lightbulb } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 import GEPHeroImage from "@/assets/GEP_Hero.png";
@@ -11,8 +11,8 @@ interface HeroProps {
 export default function Hero({ onRegisterClick }: HeroProps) {
 
   return (
-    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden py-20">
-      <div className="relative z-10 container mx-auto px-6 max-w-7xl">
+    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden py-16">
+      <div className="relative z-10 mx-auto px-6 lg:px-16 xl:px-32 2xl:px-48">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[80vh]">
           
           {/* Left Column: Content */}
@@ -70,10 +70,10 @@ export default function Hero({ onRegisterClick }: HeroProps) {
                 {/* Trust Points - Elegant Grid */}
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
                   {[
-                    { icon: "✨", text: "People ask you for guidance" },
-                    { icon: "👨👩👧👦", text: "Parents seek your opinion" },
-                    { icon: "🎓", text: "Students look to you for direction" },
-                    { icon: "🏠", text: "Neighbours value your advice" }
+                    { icon: Lightbulb, text: "People ask you for guidance" },
+                    { icon: Users, text: "Parents seek your opinion" },
+                    { icon: GraduationCap, text: "Students look to you for direction" },
+                    { icon: Home, text: "Neighbours value your advice" }
                   ].map((item, index) => (
                     <motion.div
                       key={index}
@@ -82,7 +82,7 @@ export default function Hero({ onRegisterClick }: HeroProps) {
                       transition={{ delay: 0.7 + index * 0.1 }}
                       className="bg-white/10 rounded-2xl p-4 text-center space-y-2 hover:bg-white/20 transition-all duration-300 border border-white/10"
                     >
-                      <div className="text-2xl mb-2">{item.icon}</div>
+                      <item.icon className="w-8 h-8 text-yellow-300 mb-2 mx-auto" />
                       <p className="text-sm text-white/90 leading-tight font-medium">{item.text}</p>
                     </motion.div>
                   ))}
@@ -167,8 +167,8 @@ export default function Hero({ onRegisterClick }: HeroProps) {
           className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto"
         >
           {[
-            { icon: Users, label: "Active Partners", value: "500+", description: "Trusted educators worldwide" },
-            { icon: GraduationCap, label: "Students Placed", value: "10,000+", description: "Dreams fulfilled globally" },
+            { icon: Users, label: "Active Partners", value: "100+", description: "Trusted educators worldwide" },
+            { icon: GraduationCap, label: "Students Placed", value: "1,000+", description: "Dreams fulfilled globally" },
             { icon: Users, label: "Countries", value: "25+", description: "International presence" },
           ].map((stat, index) => (
             <motion.div
