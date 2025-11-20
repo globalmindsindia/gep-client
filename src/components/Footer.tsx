@@ -1,8 +1,5 @@
-"use client";
-
 import { motion } from "framer-motion";
 import { Mail, Phone, MapPin, Facebook, Twitter, Linkedin, Instagram } from "lucide-react";
-import Image from "next/image";
 import GMILogo from "@/assets/gmi_logo.png";
 
 export default function Footer() {
@@ -52,7 +49,7 @@ export default function Footer() {
               transition={{ duration: 0.5 }}
               className="mb-6"
             >
-              <Image
+              <img
                 src={GMILogo}
                 alt="Global Minds India"
                 width={200}

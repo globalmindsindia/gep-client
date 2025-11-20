@@ -1,6 +1,5 @@
-"use client";
-
 import { useState } from "react";
+import { Routes, Route } from "react-router-dom";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import WhatIsGEP from "@/components/WhatIsGEP";
@@ -10,8 +9,10 @@ import Services from "@/components/Services";
 import Trust from "@/components/Trust";
 import Footer from "@/components/Footer";
 import RegistrationModal from "@/components/RegistrationModal";
+import GlobalBackground from "@/components/GlobalBackground";
+import ErrorReporter from "@/components/ErrorReporter";
 
-export default function Home() {
+function HomePage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
@@ -30,3 +31,17 @@ export default function Home() {
     </div>
   );
 }
+
+function App() {
+  return (
+    <div className="antialiased bg-transparent">
+      <GlobalBackground />
+      <ErrorReporter />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+      </Routes>
+    </div>
+  );
+}
+
+export default App;

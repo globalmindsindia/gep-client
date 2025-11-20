@@ -1,10 +1,7 @@
-"use client";
-
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
 import GMILogo from "@/assets/gmi_logo.png";
 
 interface HeaderProps {
@@ -49,13 +46,12 @@ export default function Header({ onRegisterClick }: HeaderProps) {
             className="flex items-center cursor-pointer"
             whileHover={{ scale: 1.05 }}
           >
-            <Image
+            <img
               src={GMILogo}
               alt="Global Minds India"
               width={168}
               height={56}
               className="h-14 w-auto"
-              priority
             />
           </motion.div>
 

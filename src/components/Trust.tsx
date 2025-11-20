@@ -1,5 +1,3 @@
-"use client";
-
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
@@ -38,7 +36,6 @@ function CountUp({ end, duration = 2 }: { end: number; duration?: number }) {
 export default function Trust() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [dimensions, setDimensions] = useState({ width: 1920, height: 1080 });
   
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -46,10 +43,6 @@ export default function Trust() {
   });
   
   const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
-
-  useEffect(() => {
-    setDimensions({ width: window.innerWidth, height: window.innerHeight });
-  }, []);
 
   const stats = [
     { icon: Users, value: 1000, suffix: "+", label: "Students Guided", color: "from-yellow-300 to-orange-400" },

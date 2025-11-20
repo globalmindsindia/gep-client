@@ -1,10 +1,7 @@
-"use client";
-
 import { motion } from "framer-motion";
-import { Award, Users, GraduationCap, Globe } from "lucide-react";
+import { Award, Users, GraduationCap } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
-import Image from "next/image";
+
 import GEPHeroImage from "@/assets/GEP_Hero.png";
 
 interface HeroProps {
@@ -12,11 +9,6 @@ interface HeroProps {
 }
 
 export default function Hero({ onRegisterClick }: HeroProps) {
-  const [dimensions, setDimensions] = useState({ width: 1920, height: 1080 });
-
-  useEffect(() => {
-    setDimensions({ width: window.innerWidth, height: window.innerHeight });
-  }, []);
 
   return (
     <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden py-20">
@@ -156,13 +148,12 @@ export default function Hero({ onRegisterClick }: HeroProps) {
               <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/20 to-orange-500/20 rounded-full blur-3xl scale-110"></div>
               
               {/* Image without container */}
-              <Image
+              <img
                 src={GEPHeroImage}
                 alt="Global Education Partner Hero"
                 width={500}
                 height={600}
                 className="relative rounded-2xl object-contain w-full h-auto max-w-md mx-auto"
-                priority
               />
             </div>
           </motion.div>

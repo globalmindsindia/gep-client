@@ -1,14 +1,11 @@
-"use client";
-
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef, useEffect, useState } from "react";
+import { useRef } from "react";
 import { GraduationCap, Globe, FileCheck, CreditCard, Home, Briefcase, DollarSign } from "lucide-react";
 
 export default function Services() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [dimensions, setDimensions] = useState({ width: 1920, height: 1080 });
   
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -16,10 +13,6 @@ export default function Services() {
   });
   
   const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
-
-  useEffect(() => {
-    setDimensions({ width: window.innerWidth, height: window.innerHeight });
-  }, []);
 
   const services = [
     {

@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, User, Phone, Mail, GraduationCap, Briefcase, Sparkles } from "lucide-react";
