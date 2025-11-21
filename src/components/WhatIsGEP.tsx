@@ -1,7 +1,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { Target, Users, Home, GraduationCap, Briefcase, UserCheck, X, CheckCircle, Building, Shield, Sparkles, DollarSign } from "lucide-react";
+import { Target, Users, IndianRupee, Home, GraduationCap, Briefcase, UserCheck, X, CheckCircle, Building, Shield, Sparkles,  } from "lucide-react";
 
 export default function WhatIsGEP() {
   const ref = useRef(null);
@@ -204,7 +204,7 @@ export default function WhatIsGEP() {
               <p className="text-xl text-white/90 mb-6">Just your ability to connect one dream to the right direction</p>
               <div className="bg-white/10 rounded-2xl p-6 border border-white/20">
                 <p className="text-2xl font-bold text-yellow-300 flex items-center justify-center gap-2">
-                  Every Successful Registration = You Earn <DollarSign className="w-6 h-6" />
+                  Every Successful Registration = You Earn <IndianRupee className="w-6 h-6" />
                 </p>
               </div>
             </motion.div>
