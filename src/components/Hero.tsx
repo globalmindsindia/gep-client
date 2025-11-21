@@ -168,7 +168,7 @@ export default function Hero({ onRegisterClick }: HeroProps) {
         >
           {[
             { icon: Users, label: "Active Partners", value: "100+", description: "Trusted educators worldwide" },
-            { icon: GraduationCap, label: "Students Placed", value: "1,000+", description: "Dreams fulfilled globally" },
+            { icon: GraduationCap, label: "Students Placed", value: "500+", description: "Dreams fulfilled globally" },
             { icon: Users, label: "Countries", value: "25+", description: "International presence" },
           ].map((stat, index) => (
             <motion.div
