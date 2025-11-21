@@ -68,7 +68,7 @@ export default function Services() {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold mt-3 mb-6 text-white">
-            🚀 What You Will Be{" "}
+             🎓💪 What You Will Be{" "}
             <span className="bg-gradient-to-r from-yellow-300 to-orange-400 bg-clip-text text-transparent">
               Empowering Students With:
             </span>

@@ -1,7 +1,18 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
-import { Award, Shield, Star, TrendingUp, Users, CheckCircle } from "lucide-react";
+import {
+  Award,
+  Shield,
+  Star,
+  TrendingUp,
+  Users,
+  CheckCircle,
+  UserPlus,
+  UserCheck,
+  IndianRupee,
+  Heart,
+} from "lucide-react";
 
 function CountUp({ end, duration = 2 }: { end: number; duration?: number }) {
   const [count, setCount] = useState(0);
@@ -17,7 +28,7 @@ function CountUp({ end, duration = 2 }: { end: number; duration?: number }) {
     const animate = (timestamp: number) => {
       if (!startTime) startTime = timestamp;
       const progress = Math.min((timestamp - startTime) / (duration * 1000), 1);
-      
+
       setCount(Math.floor(progress * end));
 
       if (progress < 1) {
@@ -36,19 +47,43 @@ function CountUp({ end, duration = 2 }: { end: number; duration?: number }) {
 export default function Trust() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  
+
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start end", "end start"]
+    offset: ["start end", "end start"],
   });
-  
+
   const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
 
   const stats = [
-    { icon: Users, value: 500, suffix: "+", label: "Students Guided", color: "from-yellow-300 to-orange-400" },
-    { icon: TrendingUp, value: 10, suffix: "+", label: "Years of Expert Counsellors", color: "from-yellow-300 to-orange-400" },
-    { icon: Award, value: 100, suffix: "%", label: "Transparent Support", color: "from-yellow-300 to-orange-400" },
-    { icon: Star, value: 1, suffix: "", label: "Strong Reputation Across Karnataka", color: "from-yellow-300 to-orange-400" },
+    {
+      icon: Users,
+      value: 500,
+      suffix: "+",
+      label: "Students Guided",
+      color: "from-yellow-300 to-orange-400",
+    },
+    {
+      icon: TrendingUp,
+      value: 10,
+      suffix: "+",
+      label: "Years of Expert Counsellors",
+      color: "from-yellow-300 to-orange-400",
+    },
+    {
+      icon: Award,
+      value: 100,
+      suffix: "%",
+      label: "Transparent Support",
+      color: "from-yellow-300 to-orange-400",
+    },
+    {
+      icon: Star,
+      value: 1,
+      suffix: "",
+      label: "Strong Reputation Across Karnataka",
+      color: "from-yellow-300 to-orange-400",
+    },
   ];
 
   const trustFactors = [
@@ -75,9 +110,11 @@ export default function Trust() {
   ];
 
   return (
-    <section ref={ref} className="relative py-12 overflow-hidden">
-
-      <motion.div style={{ y }} className="mx-auto px-6 lg:px-16 xl:px-32 2xl:px-48 relative z-10">
+    <section ref={ref} className="relative py-8 overflow-hidden">
+      <motion.div
+        style={{ y }}
+        className="mx-auto px-6 lg:px-16 xl:px-32 2xl:px-48 relative z-10"
+      >
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -104,7 +141,9 @@ export default function Trust() {
               className="group"
             >
               <div className="relative bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:border-white/30 transition-all duration-300 text-center">
-                <div className={`w-14 h-14 mx-auto rounded-xl bg-gradient-to-br ${stat.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                <div
+                  className={`w-14 h-14 mx-auto rounded-xl bg-gradient-to-br ${stat.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}
+                >
                   <stat.icon className="w-7 h-7 text-white" />
                 </div>
                 <div className="text-4xl font-bold mb-2 text-white">
@@ -128,8 +167,8 @@ export default function Trust() {
               whileHover={{ y: -5 }}
               className="group"
             >
-              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:border-white/30 transition-all duration-300 h-full">
-                <factor.icon className="w-10 h-10 text-yellow-300 mb-4 group-hover:scale-110 transition-transform duration-300" />
+              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:border-white/30 transition-all duration-300 h-full text-center">
+                <factor.icon className="w-10 h-10 text-yellow-300 mb-4 mx-auto group-hover:scale-110 transition-transform duration-300" />
                 <h3 className="text-lg font-bold mb-2 text-white">{factor.title}</h3>
                 <p className="text-sm text-white/80">{factor.description}</p>
               </div>
@@ -145,7 +184,9 @@ export default function Trust() {
           className="max-w-5xl mx-auto"
         >
           <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 text-center">
-            <h3 className="text-3xl font-bold mb-6 text-white">This Could Be Your Turning Point</h3>
+            <h3 className="text-3xl font-bold mb-6 text-white">
+              This Could Be Your Turning Point
+            </h3>
             <div className="space-y-4 text-lg text-white/90 mb-8">
               <p>In every family, every community, every circle there is one person who guides others.</p>
               <p>One person people trust. One person who makes things happen.</p>
@@ -160,14 +201,28 @@ export default function Trust() {
             <p className="text-xl font-semibold text-yellow-300 mb-8">
               And in the journey of lighting someone else's path… your path also lights up.
             </p>
-            
+
             <div className="bg-white/10 rounded-xl p-6 border border-white/20">
-              <h4 className="text-2xl font-bold mb-4 text-white">Join the Global Education Partner Programme Today</h4>
+              <h4 className="text-2xl font-bold mb-4 text-white">
+                Join the Global Education Partner Programme Today
+              </h4>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-white/90">
-                <div>👉 Register now</div>
-                <div>👉 Start referring</div>
-                <div>👉 Start earning</div>
-                <div>👉 Start transforming lives</div>
+                <div className="flex items-center gap-2 bg-yellow-400/20 rounded-md p-2 font-bold">
+                  <UserPlus className="w-6 h-6 text-yellow-400" />
+                  Register now
+                </div>
+                <div className="flex items-center gap-2 bg-yellow-400/20 rounded-md p-2 font-bold">
+                  <UserCheck className="w-6 h-6 text-yellow-400" />
+                  Start referring
+                </div>
+                <div className="flex items-center gap-2 bg-yellow-400/20 rounded-md p-2 font-bold">
+                  <IndianRupee className="w-6 h-6 text-yellow-400" />
+                  Start earning
+                </div>
+                <div className="flex items-center gap-2 bg-yellow-400/20 rounded-md p-2 font-bold">
+                  <Heart className="w-6 h-6 text-yellow-400" />
+                  Start transforming lives
+                </div>
               </div>
             </div>
           </div>

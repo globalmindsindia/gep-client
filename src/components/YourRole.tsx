@@ -1,7 +1,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { UserCheck, FileText, MessageSquare, Plane, DollarSign, Heart, Compass, HandHeart } from "lucide-react";
+import { UserCheck, FileText, MessageSquare, Plane, IndianRupee, Heart, Compass, HandHeart } from "lucide-react";
 
 export default function YourRole() {
   const ref = useRef(null);
@@ -36,14 +36,14 @@ export default function YourRole() {
       description: "Our team handles all the technical work",
     },
     {
-      icon: DollarSign,
+      icon: IndianRupee,
       title: "You receive earnings for every successful student",
       description: "Get rewarded for making a difference",
     },
   ];
 
   return (
-    <section ref={ref} className="relative py-12 overflow-hidden">
+    <section ref={ref} className="relative py-8 overflow-hidden">
 
       <motion.div style={{ y }} className="mx-auto px-6 lg:px-16 xl:px-32 2xl:px-48 relative z-10">
         <motion.div

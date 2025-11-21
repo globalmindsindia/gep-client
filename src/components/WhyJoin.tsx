@@ -54,7 +54,7 @@ export default function WhyJoin() {
   ];
 
   return (
-    <section id="why-join" ref={ref} className="relative py-12 overflow-hidden">
+    <section id="why-join" ref={ref} className="relative py-8 overflow-hidden">
 
       <motion.div style={{ y }} className="mx-auto px-6 lg:px-16 xl:px-32 2xl:px-48 relative z-10">
         <motion.div

@@ -9,12 +9,13 @@ interface HeroProps {
 }
 
 export default function Hero({ onRegisterClick }: HeroProps) {
-
   return (
-    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden py-16">
+    <section
+      id="hero"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden py-16"
+    >
       <div className="relative z-10 mx-auto px-6 lg:px-16 xl:px-32 2xl:px-48">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[80vh]">
-          
           {/* Left Column: Content */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -32,7 +33,9 @@ export default function Hero({ onRegisterClick }: HeroProps) {
                 transition={{ delay: 0.2 }}
               >
                 <Award className="w-3 h-3 text-yellow-300" />
-                <span className="text-xs font-medium text-white">Global Education Excellence</span>
+                <span className="text-xs font-medium text-white">
+                  Global Education Excellence
+                </span>
               </motion.div>
 
               <motion.div
@@ -42,7 +45,7 @@ export default function Hero({ onRegisterClick }: HeroProps) {
               >
                 <h1 className="text-2xl lg:text-4xl xl:text-5xl font-bold leading-tight text-white">
                   Want to Become a{" "}
-                  <span className="bg-gradient-to-r from-yellow-300 to-orange-400 bg-clip-text text-transparent">
+                  <span className="bg-gradient-to-r from-yellow-300 to-orange-400 bg-clip-text text-transparent whitespace-nowrap">
                     Global Education Partner
                   </span>{" "}
                   with Global Minds India?
@@ -66,14 +69,17 @@ export default function Hero({ onRegisterClick }: HeroProps) {
                     Now Has the Power to Change Someone's Life
                   </p>
                 </div>
-                
+
                 {/* Trust Points - Elegant Grid */}
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
                   {[
                     { icon: Lightbulb, text: "People ask you for guidance" },
                     { icon: Users, text: "Parents seek your opinion" },
-                    { icon: GraduationCap, text: "Students look to you for direction" },
-                    { icon: Home, text: "Neighbours value your advice" }
+                    {
+                      icon: GraduationCap,
+                      text: "Students look to you for direction",
+                    },
+                    { icon: Home, text: "Neighbours value your advice" },
                   ].map((item, index) => (
                     <motion.div
                       key={index}
@@ -83,11 +89,13 @@ export default function Hero({ onRegisterClick }: HeroProps) {
                       className="bg-white/10 rounded-2xl p-4 text-center space-y-2 hover:bg-white/20 transition-all duration-300 border border-white/10"
                     >
                       <item.icon className="w-8 h-8 text-yellow-300 mb-2 mx-auto" />
-                      <p className="text-sm text-white/90 leading-tight font-medium">{item.text}</p>
+                      <p className="text-sm text-white/90 leading-tight font-medium">
+                        {item.text}
+                      </p>
                     </motion.div>
                   ))}
                 </div>
-                
+
                 {/* Call to Action Message */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -99,7 +107,8 @@ export default function Hero({ onRegisterClick }: HeroProps) {
                     If you are that trusted person —
                   </p>
                   <p className="text-base text-white font-medium">
-                    It's time to turn your goodness into a meaningful opportunity
+                    It's time to turn your goodness into a meaningful
+                    opportunity
                   </p>
                 </motion.div>
               </div>
@@ -128,7 +137,11 @@ export default function Hero({ onRegisterClick }: HeroProps) {
                   asChild
                   className="bg-white/10 backdrop-blur-md border-white/30 text-white hover:bg-white/20 px-6 py-3 text-base rounded-full w-full sm:w-auto"
                 >
-                  <a href="https://www.globalmindsindia.com/global-educational-partner/" target="_blank" rel="noopener noreferrer">
+                  <a
+                    href="https://www.globalmindsindia.com/global-educational-partner/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     Learn More
                   </a>
                 </Button>
@@ -146,7 +159,7 @@ export default function Hero({ onRegisterClick }: HeroProps) {
             <div className="relative">
               {/* Decorative background circle */}
               <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/20 to-orange-500/20 rounded-full blur-3xl scale-110"></div>
-              
+
               {/* Image without container */}
               <img
                 src={GEPHeroImage}
@@ -158,7 +171,7 @@ export default function Hero({ onRegisterClick }: HeroProps) {
             </div>
           </motion.div>
         </div>
-        
+
         {/* Stats Section - Moved outside grid for better positioning */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -167,9 +180,24 @@ export default function Hero({ onRegisterClick }: HeroProps) {
           className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto"
         >
           {[
-            { icon: Users, label: "Active Partners", value: "100+", description: "Trusted educators worldwide" },
-            { icon: GraduationCap, label: "Students Placed", value: "500+", description: "Dreams fulfilled globally" },
-            { icon: Users, label: "Countries", value: "25+", description: "International presence" },
+            {
+              icon: Users,
+              label: "Active Partners",
+              value: "100+",
+              description: "Trusted educators worldwide",
+            },
+            {
+              icon: GraduationCap,
+              label: "Students Placed",
+              value: "500+",
+              description: "Dreams fulfilled globally",
+            },
+            {
+              icon: Users,
+              label: "Countries",
+              value: "25+",
+              description: "International presence",
+            },
           ].map((stat, index) => (
             <motion.div
               key={index}
@@ -182,23 +210,15 @@ export default function Hero({ onRegisterClick }: HeroProps) {
               <div className="text-4xl font-bold mb-2 bg-gradient-to-r from-yellow-300 to-orange-400 bg-clip-text text-transparent">
                 {stat.value}
               </div>
-              <div className="text-lg font-semibold text-white mb-2">{stat.label}</div>
+              <div className="text-lg font-semibold text-white mb-2">
+                {stat.label}
+              </div>
               <div className="text-sm text-white/70">{stat.description}</div>
             </motion.div>
           ))}
         </motion.div>
       </div>
-
-      {/* Scroll Indicator */}
-      <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
-        animate={{ y: [0, 10, 0] }}
-        transition={{ duration: 2, repeat: Infinity }}
-      >
-        <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center pt-2">
-          <div className="w-1.5 h-3 bg-white/50 rounded-full" />
-        </div>
-      </motion.div>
+      
     </section>
   );
 }
