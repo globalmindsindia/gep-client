@@ -45,7 +45,7 @@ export default function Trust() {
   const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
 
   const stats = [
-    { icon: Users, value: 100, suffix: "+", label: "Students Guided", color: "from-yellow-300 to-orange-400" },
+    { icon: Users, value: 500, suffix: "+", label: "Students Guided", color: "from-yellow-300 to-orange-400" },
     { icon: TrendingUp, value: 10, suffix: "+", label: "Years of Expert Counsellors", color: "from-yellow-300 to-orange-400" },
     { icon: Award, value: 100, suffix: "%", label: "Transparent Support", color: "from-yellow-300 to-orange-400" },
     { icon: Star, value: 1, suffix: "", label: "Strong Reputation Across Karnataka", color: "from-yellow-300 to-orange-400" },
