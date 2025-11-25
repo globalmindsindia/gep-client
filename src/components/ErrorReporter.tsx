@@ -106,7 +106,7 @@ export default function ErrorReporter({ error }: ReporterProps) {
             </p>
           </div>
           <div className="space-y-2">
-            {process.env.NODE_ENV === "development" && (
+            {import.meta.env.MODE === "development" && (
               <details className="mt-4 text-left">
                 <summary className="cursor-pointer text-sm text-muted-foreground hover:text-foreground">
                   Error details

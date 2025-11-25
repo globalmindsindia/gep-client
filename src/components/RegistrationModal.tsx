@@ -24,6 +24,13 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
+  // Vite exposes env vars through import.meta.env (VITE_ prefix)
+  const API_BASE =
+    (import.meta.env.VITE_API_BASE_URL as string) ||
+    // fallback to older naming (if you migrated from Next/CRA to Vite and kept env vars)
+    (import.meta.env.VITE_REACT_APP_API_BASE_URL as string) ||
+    "http://localhost:8000";
+
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
 
@@ -55,21 +62,89 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
     return Object.keys(newErrors).length === 0;
   };
 
+  // Map pydantic validation errors to field names
+  const mapPydanticErrorsToFields = (details: any[]): Record<string, string> => {
+    const mapped: Record<string, string> = {};
+    details.forEach((err: any) => {
+      // Err.loc is usually ["extra", "mobile"] or ["email"] etc.
+      let field = String(err?.loc?.[0] ?? "");
+      if (Array.isArray(err.loc) && err.loc.length > 1) {
+        // prefer the second segment if first is `extra`
+        field = err.loc[0] === "extra" ? String(err.loc[1]) : String(err.loc[err.loc.length - 1]);
+      }
+      // Finally fallback to 'form' if unknown
+      if (!field) field = "form";
+      mapped[field] = err.msg ?? "Invalid value";
+    });
+    return mapped;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    // client-side validation
     if (!validateForm()) {
       return;
     }
 
     setIsSubmitting(true);
+    setErrors({});
+    setIsSuccess(false);
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    const payload = {
+      name: formData.name.trim(),
+      email: formData.email.trim(),
+      extra: {
+        mobile: formData.mobile.trim(),
+        qualification: formData.qualification.trim(),
+        experience: formData.experience.trim(),
+      },
+    };
 
-    console.log("Form submitted:", formData);
-    setIsSubmitting(false);
-    setIsSuccess(true);
+    try {
+      const res = await fetch(`${API_BASE.replace(/\/$/, "")}/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        // if your backend uses cookies/session auth, add credentials: 'include'
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json().catch(() => null);
+
+      if (res.ok) {
+        setIsSuccess(true);
+        // Optionally clear form here or after the user confirms
+        setFormData({ name: "", mobile: "", email: "", qualification: "", experience: "" });
+        setIsSubmitting(false);
+        return;
+      }
+
+      // 422 - pydantic validation errors (detail = list)
+      if (res.status === 422 && data?.detail && Array.isArray(data.detail)) {
+        const mapped = mapPydanticErrorsToFields(data.detail);
+        setErrors((prev) => ({ ...prev, ...mapped }));
+        setIsSubmitting(false);
+        return;
+      }
+
+      // 409 - duplicate email
+      if (res.status === 409) {
+        setErrors({ ...errors, email: data?.detail ?? "Email already registered" });
+        setIsSubmitting(false);
+        return;
+      }
+
+      // Generic server or other status
+      setErrors({ form: data?.detail ?? `Registration failed (status ${res.status})` });
+    } catch (err: any) {
+      console.error("Network error analyzing registration:", err);
+      setErrors({ form: err.message || "Network error during registration" });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -148,7 +223,7 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
                             });
                             setIsSuccess(false);
                             onClose();
-                            window.location.href = '/';
+                            window.location.href = "/";
                           }}
                           className="bg-white text-green-500 hover:bg-white/90 font-semibold px-6 py-2 rounded-full mt-4"
                         >
@@ -185,6 +260,11 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
 
               {/* Form */}
               <form onSubmit={handleSubmit} className="p-8 space-y-6">
+                {/* non-field (form) error */}
+                {errors.form && (
+                  <div className="text-center text-red-600 mb-2">{errors.form}</div>
+                )}
+
                 {/* Name */}
                 <div>
                   <Label htmlFor="name" className="flex items-center gap-2 mb-2 text-gray-700">
@@ -321,6 +401,7 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
                 <Button
                   type="submit"
                   disabled={isSubmitting}
+                  aria-busy={isSubmitting}
                   className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-6 text-lg font-semibold rounded-xl"
                 >
                   {isSubmitting ? (
