@@ -25,11 +25,12 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
   const [isSuccess, setIsSuccess] = useState(false);
 
   // Vite exposes env vars through import.meta.env (VITE_ prefix)
+  // Prefer explicit Vite env variable; fallback to production API when not set
+  // NOTE: Set VITE_API_BASE_URL in your dev .env if you want to override during local testing
   const API_BASE =
     (import.meta.env.VITE_API_BASE_URL as string) ||
-    // fallback to older naming (if you migrated from Next/CRA to Vite and kept env vars)
     (import.meta.env.VITE_REACT_APP_API_BASE_URL as string) ||
-    "http://localhost:8000";
+    "https://api.gep.globalmindsindia.in";
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
