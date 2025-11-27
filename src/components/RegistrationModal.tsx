@@ -24,39 +24,76 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
+  // Keep submitted values so success overlay can show them after clearing the form
+  const [submittedName, setSubmittedName] = useState("");
+  const [submittedEmail, setSubmittedEmail] = useState("");
+
   // Vite exposes env vars through import.meta.env (VITE_ prefix)
-  // Prefer explicit Vite env variable; fallback to production API when not set
-  // NOTE: Set VITE_API_BASE_URL in your dev .env if you want to override during local testing
   const API_BASE =
     (import.meta.env.VITE_API_BASE_URL as string) ||
     (import.meta.env.VITE_REACT_APP_API_BASE_URL as string) ||
     "https://api.gep.globalmindsindia.in";
 
+  // --- Helpers / validators ---
+  const sanitizeNameInput = (value: string) => {
+    // Allow letters, spaces, hyphen, apostrophe, dot. Remove digits and other special chars.
+    return value.replace(/[^A-Za-z\s\-\.'\u00C0-\u024f]/g, "");
+  };
+
+  const sanitizeMobileInput = (value: string) => {
+    // keep digits only and limit to 10
+    const digits = value.replace(/\D/g, "").slice(0, 10);
+    return digits;
+  };
+
+  const hasTooManyConsecutiveSameDigits = (numStr: string) => {
+    // detects 5 or more repeated consecutive digits (disallowed)
+    return /(\d)\1{4,}/.test(numStr);
+  };
+
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
 
-    if (!formData.name.trim()) {
+    // Name: required, no digits, length > 3
+    const nameTrim = formData.name.trim();
+    if (!nameTrim) {
       newErrors.name = "Name is required";
+    } else if (nameTrim.length <= 3) {
+      newErrors.name = "Name must be more than 3 characters";
     }
 
-    if (!formData.mobile.trim()) {
+    // Mobile: required, exactly 10 digits, starts with 6-9, no 5+ consecutive same digits
+    const mobileRaw = formData.mobile.replace(/\s/g, "");
+    if (!mobileRaw) {
       newErrors.mobile = "Mobile number is required";
-    } else if (!/^[0-9]{10}$/.test(formData.mobile.replace(/\s/g, ""))) {
-      newErrors.mobile = "Please enter a valid 10-digit mobile number";
+    } else if (!/^[6-9]\d{9}$/.test(mobileRaw)) {
+      newErrors.mobile = "Enter a valid 10-digit mobile number starting with 6,7,8 or 9";
+    } else if (hasTooManyConsecutiveSameDigits(mobileRaw)) {
+      newErrors.mobile = "Mobile number must not contain more than 4 consecutive identical digits";
     }
 
-    if (!formData.email.trim()) {
+    // Email: basic check
+    const emailTrim = formData.email.trim();
+    if (!emailTrim) {
       newErrors.email = "Email is required";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailTrim)) {
       newErrors.email = "Please enter a valid email address";
     }
 
-    if (!formData.qualification.trim()) {
+    // Qualification: required, basic min length
+    const qualTrim = formData.qualification.trim();
+    if (!qualTrim) {
       newErrors.qualification = "Qualification is required";
+    } else if (qualTrim.length < 2) {
+      newErrors.qualification = "Please provide a valid qualification";
     }
 
-    if (!formData.experience.trim()) {
+    // Experience: required, basic min length (and example placeholder guides the user)
+    const expTrim = formData.experience.trim();
+    if (!expTrim) {
       newErrors.experience = "Experience details are required";
+    } else if (expTrim.length < 10) {
+      newErrors.experience = "Please provide more detail about your experience (min 10 characters)";
     }
 
     setErrors(newErrors);
@@ -67,13 +104,10 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
   const mapPydanticErrorsToFields = (details: any[]): Record<string, string> => {
     const mapped: Record<string, string> = {};
     details.forEach((err: any) => {
-      // Err.loc is usually ["extra", "mobile"] or ["email"] etc.
       let field = String(err?.loc?.[0] ?? "");
       if (Array.isArray(err.loc) && err.loc.length > 1) {
-        // prefer the second segment if first is `extra`
         field = err.loc[0] === "extra" ? String(err.loc[1]) : String(err.loc[err.loc.length - 1]);
       }
-      // Finally fallback to 'form' if unknown
       if (!field) field = "form";
       mapped[field] = err.msg ?? "Invalid value";
     });
@@ -96,6 +130,7 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
       name: formData.name.trim(),
       email: formData.email.trim(),
       extra: {
+        // backend expects 10-digit number (we keep it that way)
         mobile: formData.mobile.trim(),
         qualification: formData.qualification.trim(),
         experience: formData.experience.trim(),
@@ -109,15 +144,20 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
           "Content-Type": "application/json",
           Accept: "application/json",
         },
-        // if your backend uses cookies/session auth, add credentials: 'include'
         body: JSON.stringify(payload),
       });
 
       const data = await res.json().catch(() => null);
 
       if (res.ok) {
+        // Save submitted values for the success overlay before clearing
+        setSubmittedName(payload.name);
+        // show email in overlay (submittedEmail)
+        setSubmittedEmail(payload.email);
+
         setIsSuccess(true);
-        // Optionally clear form here or after the user confirms
+
+        // clear form
         setFormData({ name: "", mobile: "", email: "", qualification: "", experience: "" });
         setIsSubmitting(false);
         return;
@@ -148,10 +188,30 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
     }
   };
 
+  // Input change handler with per-field sanitization
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
+
+    if (name === "name") {
+      const sanitized = sanitizeNameInput(value);
+      setFormData((prev) => ({ ...prev, name: sanitized }));
+      if (errors.name) {
+        setErrors((prev) => ({ ...prev, name: "" }));
+      }
+      return;
+    }
+
+    if (name === "mobile") {
+      const sanitized = sanitizeMobileInput(value);
+      setFormData((prev) => ({ ...prev, mobile: sanitized }));
+      if (errors.mobile) {
+        setErrors((prev) => ({ ...prev, mobile: "" }));
+      }
+      return;
+    }
+
+    // For other fields (email, qualification, experience)
     setFormData((prev) => ({ ...prev, [name]: value }));
-    // Clear error when user starts typing
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     }
@@ -201,13 +261,13 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
                       >
                         <Sparkles className="w-10 h-10 text-green-500" />
                       </motion.div>
-                      <h3 className="text-2xl font-bold mb-4">Thank you, {formData.name}, for registering!</h3>
+                      <h3 className="text-2xl font-bold mb-4">Thank you, {submittedName || "Partner"}, for registering!</h3>
                       <div className="space-y-4 text-white/90">
                         <p className="text-lg font-medium">We're excited to have you onboard.</p>
                         <p className="text-base">Your registration details have been successfully received.</p>
                         <div className="bg-white/10 rounded-lg p-3 text-center">
                           <p className="text-base font-medium mb-1">📧 A confirmation email has been sent to:</p>
-                          <p className="text-sm font-semibold">{formData.email}</p>
+                          <p className="text-sm font-semibold">{submittedEmail}</p>
                           <p className="text-sm mt-1">Please check your inbox (and spam folder) for the next steps.</p>
                         </div>
                         <p className="text-base leading-relaxed">
@@ -215,13 +275,9 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
                         </p>
                         <Button
                           onClick={() => {
-                            setFormData({
-                              name: "",
-                              mobile: "",
-                              email: "",
-                              qualification: "",
-                              experience: "",
-                            });
+                            // reset success state and close
+                            setSubmittedName("");
+                            setSubmittedEmail("");
                             setIsSuccess(false);
                             onClose();
                             window.location.href = "/";
@@ -280,6 +336,17 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
                     placeholder="Enter your full name"
                     className={errors.name ? "border-red-500" : ""}
                     aria-invalid={!!errors.name}
+                    onPaste={(e: React.ClipboardEvent<HTMLInputElement>) => {
+                      const paste = e.clipboardData?.getData("text") ?? "";
+                      const sanitized = sanitizeNameInput(paste);
+                      if (sanitized !== paste) {
+                        e.preventDefault();
+                        const el = e.target as HTMLInputElement;
+                        const newVal = (el.value + sanitized).slice(0, 200);
+                        setFormData((prev) => ({ ...prev, name: newVal }));
+                        if (errors.name) setErrors((prev) => ({ ...prev, name: "" }));
+                      }
+                    }}
                   />
                   {errors.name && (
                     <motion.p
@@ -292,21 +359,77 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
                   )}
                 </div>
 
-                {/* Mobile */}
+                {/* Mobile with +91 prefix */}
                 <div>
                   <Label htmlFor="mobile" className="flex items-center gap-2 mb-2 text-gray-700">
                     <Phone className="w-4 h-4" />
                     Mobile Number *
                   </Label>
-                  <Input
-                    id="mobile"
-                    name="mobile"
-                    value={formData.mobile}
-                    onChange={handleChange}
-                    placeholder="Enter your mobile number"
-                    className={errors.mobile ? "border-red-500" : ""}
-                    aria-invalid={!!errors.mobile}
-                  />
+
+                  <div className="flex items-center gap-2">
+                    {/* non-editable prefix */}
+                    <span
+                      className="inline-flex items-center px-3 py-2 rounded-lg bg-gray-100 text-gray-700 border border-r-0"
+                      aria-hidden
+                    >
+                      +91
+                    </span>
+
+                    {/* input — only the 10-digit number is editable */}
+                    <Input
+                      id="mobile"
+                      name="mobile"
+                      value={formData.mobile}
+                      onChange={handleChange}
+                      placeholder="Enter your 10-digit mobile number"
+                      className={`${errors.mobile ? "border-red-500" : ""} flex-1 rounded-l-none`}
+                      aria-invalid={!!errors.mobile}
+                      inputMode="numeric"
+                      aria-label="Mobile number without country code"
+                      aria-describedby="mobile-help"
+                      // block non-digit key presses
+                      onKeyDown={(e) => {
+                        // allow control keys
+                        if (
+                          e.key === "Backspace" ||
+                          e.key === "Delete" ||
+                          e.key === "ArrowLeft" ||
+                          e.key === "ArrowRight" ||
+                          e.key === "Tab"
+                        ) {
+                          return;
+                        }
+                        // prevent non-digit entry
+                        if (!/^\d$/.test(e.key)) {
+                          e.preventDefault();
+                        }
+                      }}
+                      onBlur={() => {
+                        if (formData.mobile && formData.mobile.length < 10) {
+                          setErrors((prev) => ({ ...prev, mobile: "Mobile number must be 10 digits" }));
+                        }
+                      }}
+                      onPaste={(e: React.ClipboardEvent<HTMLInputElement>) => {
+                        const paste = e.clipboardData?.getData("text") ?? "";
+                        const sanitized = sanitizeMobileInput(paste);
+                        if (sanitized !== paste) {
+                          e.preventDefault();
+                          const el = e.target as HTMLInputElement;
+                          const newVal = (el.value + sanitized).slice(0, 10);
+                          setFormData((prev) => ({ ...prev, mobile: newVal }));
+                          if (errors.mobile) setErrors((prev) => ({ ...prev, mobile: "" }));
+                        } else {
+                          // If paste is already digits, still sanitize & limit
+                          const el = e.target as HTMLInputElement;
+                          const newVal = (el.value + sanitized).slice(0, 10);
+                          e.preventDefault();
+                          setFormData((prev) => ({ ...prev, mobile: newVal }));
+                          if (errors.mobile) setErrors((prev) => ({ ...prev, mobile: "" }));
+                        }
+                      }}
+                    />
+                  </div>
+
                   {errors.mobile && (
                     <motion.p
                       initial={{ opacity: 0, y: -10 }}
@@ -382,7 +505,7 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
                     name="experience"
                     value={formData.experience}
                     onChange={handleChange}
-                    placeholder="Tell us about your relevant experience"
+                    placeholder="E.g., 3 years at ABC University as Admissions Counselor — handled partnerships, outreach, and onboarding."
                     rows={4}
                     className={errors.experience ? "border-red-500" : ""}
                     aria-invalid={!!errors.experience}
