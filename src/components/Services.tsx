@@ -1,7 +1,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { GraduationCap, Globe, FileCheck, CreditCard, Home, Briefcase, DollarSign } from "lucide-react";
+import { GraduationCap, Globe, FileCheck, CreditCard, Home, Briefcase,  Headset, LifeBuoy } from "lucide-react";
 
 export default function Services() {
   const ref = useRef(null);
@@ -51,7 +51,7 @@ export default function Services() {
       description: "Professional document preparation",
     },
     {
-      icon: DollarSign,
+      icon:  Headset, LifeBuoy,
       title: "24/7 Student Hotline",
       description: "Round-the-clock support and guidance",
     },

@@ -1,7 +1,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { DollarSign, HeadphonesIcon, TrendingUp, Users, Clock, Home, Compass, GraduationCap } from "lucide-react";
+import { IndianRupee, HeadphonesIcon, TrendingUp, Users, Clock, Home, Compass, GraduationCap } from "lucide-react";
 
 export default function WhyJoin() {
   const ref = useRef(null);
@@ -22,7 +22,7 @@ export default function WhyJoin() {
       stats: "✔ Flexible timing",
     },
     {
-      icon: DollarSign,
+      icon: IndianRupee,
       title: "Zero Investment, Zero Pressure",
       description: "No joining fee. No targets. No marketing cost.",
       stats: "✔ No upfront costs",
